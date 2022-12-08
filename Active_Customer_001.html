@@ -1,0 +1,101 @@
+<html>
+    <head>
+    <head>
+    <title>SEW Hotline call</title>
+    <style>
+    .header {
+        text-align: left;
+    }
+    h1 {
+        font-size: 32pt;
+        font-family: Montserrat;
+        color: black;
+            font-weight: lighter;
+    }	  
+    </style>
+
+    <style>
+    body {
+        cursor: pointer;
+        display: inline-block;
+        font-family: Montserrat;
+        font-size:100%;
+        font-weight: regular;
+        width: 90%;
+        line-height: 100%;
+        padding: 30px 30px;
+        color: black;
+        border:2px solid;
+        border-radius: 14px;
+        border-color:#ff0000;
+        background: Transparent;
+        height: 650px;
+    } 
+    </style>
+</html>
+
+<html>
+    <script type="text/javascript" src="https://www.google.com/jsapi">
+    </script>
+
+    <script type="text/javascript">
+        // https://google,developers.appspot.com/chart/interactive/docs/spreadsheets#gid
+        google.load('visualization', '1', {packages: ['corechart', 'line']});
+        google.setOnLoadCallback(activeworkspace);
+
+        function activeworkspace() {
+            // Add your sheets url and range below
+            var spreadsheetUrl = "https://docs.google.com/spreadsheets/d/1e5ZlAjXw1WwYwQ3uN9UaaB8vcxb_okEhg9VozhrBqH8/edit?usp=sharing";
+
+            // Uses var spreadsheetUrl
+            var query = new google.visualization.Query(spreadsheetUrl);
+            query.send(handleQueryResponse);
+        }
+
+        function handleQueryResponse(response){
+            var cellvalue = 1;
+            var x = 0;
+            var snum = 7610700;
+            var A = [];
+            var Subjects = ["Time:", "Machine Serial Number:", "Registered Customer:", "Registered Mobile Number:", "Oculavis SHARE:", "Occupation:", "Sub-Component Replacement Needed:", "Company:"];
+            var customer, entry;
+            var dataTable = response.getDataTable();
+
+                // https://developers.google.com/chart/interactive/docs/reference?hl=en#methods
+                // getValue(rowIndex, columnIndex)
+
+            while (x < 1){
+
+                cellvalue = dataTable.getValue(x, 0);
+                A[x] = [];
+                if (x == 0){
+                    y = x + 1;
+                    customer = "<tr><td><br></br><strong>Ticket 000" + y + "</strong></td>"
+                }
+                else {
+                    y = x + 1;
+                    customer = "<br></br><br></br><br></br><tr><td><strong>Ticket 000" + y + "</strong></td>";
+                }
+
+                document.getElementById("ID001").innerHTML += customer;
+
+                for (var j = 0; j < 8; j++) {
+                    A[x][j] = dataTable.getValue(x, j);
+
+                    if (A[x][j] == null ){A[x][j] = "No Data Entered"}
+
+                    entry = "<br></br><td>" + Subjects[j] + "&nbsp" + A[x][j] + "</td></tr>";
+                    
+                    document.getElementById("ID001").innerHTML += entry;
+                }
+                x++;
+            }
+        }   
+    </script>
+
+    <body>
+    <h1 id="header">Active Customer:</h1>
+    <div id="ID001"></div>
+    <img src="https://m.media-amazon.com/images/I/61whk7EJYZL._AC_SX425_.jpg" alt="Lathe Image" width="180" height="100">
+    </body>
+</html>
